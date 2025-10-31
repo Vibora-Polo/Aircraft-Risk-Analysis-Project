@@ -24,10 +24,6 @@ import numpy as np
 df = pd.read_csv('Aviation_Data.csv')
 ```
 
-    c:\Users\USER\anaconda3\envs\learn-env\lib\site-packages\IPython\core\interactiveshell.py:3145: DtypeWarning: Columns (6,7,28) have mixed types.Specify dtype option on import or set low_memory=False.
-      has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-    
-
 ## Exploring the data and its structure
 
 
@@ -407,11 +403,6 @@ This are metrics to help rank the aircraft models on the basis of their safety
 cols = ['Total.Fatal.Injuries', 'Total.Serious.Injuries', 'Total.Minor.Injuries', 'Total.Uninjured']
 #sum across those columns
 df_filtered['Total.People'] = df_filtered[cols].sum(axis=1, min_count=1)
-
-#df_filtered['Total.People'] = (
-    #df_filtered['Total.Fatal.Injuries'] + df_filtered['Total.Serious.Injuries']
-    #+ df_filtered['Total.Minor.Injuries'] + df_filtered['Total.Uninjured']
-#)
 ```
 
 
@@ -476,7 +467,6 @@ df_filtered['Severity.Index'] = (
     .replace([np.inf, -np.inf], np.nan)
     .fillna(0)
 )
-#df_filtered['Severity.Index'] = (Accident_weights/ (3*df_filtered['Total.People'])).fillna(0)
 ```
 
 # Effect of weather conditions
@@ -647,11 +637,11 @@ model_summary['Safety.Score'] = 1- (
 )
 ```
 
-Exclude events with few incidents (<5)
+Exclude events with few incidents (<30); models with fewer than 30 accidents were excluded to reduce statistical noise in the safety score computation
 
 
 ```python
-model_summary = model_summary[model_summary['Accidents'] >= 5]
+model_summary = model_summary[model_summary['Accidents'] >= 30]
 ```
 
 Ranking the models by safety
@@ -694,104 +684,104 @@ safest_models.head(10)
   </thead>
   <tbody>
     <tr>
-      <th>15926</th>
-      <td>ROBINSON</td>
-      <td>R-44</td>
-      <td>7</td>
-      <td>0.857143</td>
-      <td>0.904762</td>
-      <td>0.000000</td>
-      <td>0.123810</td>
-    </tr>
-    <tr>
-      <th>15572</th>
-      <td>Pterodactyl</td>
-      <td>ASCENDER II</td>
-      <td>5</td>
-      <td>0.800000</td>
-      <td>0.933333</td>
-      <td>0.000000</td>
-      <td>0.146667</td>
-    </tr>
-    <tr>
-      <th>5296</th>
-      <td>CIRRUS</td>
-      <td>SR-22</td>
-      <td>6</td>
-      <td>0.833333</td>
-      <td>0.833333</td>
-      <td>0.166667</td>
-      <td>0.166667</td>
-    </tr>
-    <tr>
-      <th>465</th>
-      <td>AMERICAN AVIATION</td>
-      <td>AA-1A</td>
-      <td>7</td>
-      <td>0.833333</td>
-      <td>0.761905</td>
-      <td>0.000000</td>
-      <td>0.195238</td>
-    </tr>
-    <tr>
-      <th>9345</th>
-      <td>GULFSTREAM AMERICAN CORP</td>
-      <td>AA-5A</td>
-      <td>5</td>
-      <td>0.800000</td>
-      <td>0.800000</td>
-      <td>0.200000</td>
-      <td>0.200000</td>
-    </tr>
-    <tr>
-      <th>15192</th>
-      <td>Piper</td>
-      <td>PA-31T2</td>
-      <td>5</td>
-      <td>0.800000</td>
-      <td>0.800000</td>
-      <td>0.200000</td>
-      <td>0.200000</td>
-    </tr>
-    <tr>
-      <th>14395</th>
+      <th>14454</th>
       <td>PIPER</td>
-      <td>PA-31P</td>
-      <td>5</td>
-      <td>0.800000</td>
-      <td>0.800000</td>
-      <td>0.200000</td>
-      <td>0.200000</td>
+      <td>PA25</td>
+      <td>32</td>
+      <td>0.733333</td>
+      <td>0.750000</td>
+      <td>0.166667</td>
+      <td>0.260000</td>
     </tr>
     <tr>
-      <th>15990</th>
-      <td>ROCKWELL INTERNATIONAL</td>
-      <td>690B</td>
-      <td>5</td>
-      <td>0.800000</td>
-      <td>0.800000</td>
-      <td>0.200000</td>
-      <td>0.200000</td>
+      <th>15936</th>
+      <td>ROBINSON</td>
+      <td>R44</td>
+      <td>142</td>
+      <td>0.521766</td>
+      <td>0.597809</td>
+      <td>0.248756</td>
+      <td>0.447817</td>
     </tr>
     <tr>
-      <th>17121</th>
-      <td>SMITH</td>
-      <td>AEROSTAR 601P</td>
-      <td>5</td>
-      <td>0.800000</td>
-      <td>0.800000</td>
-      <td>0.200000</td>
-      <td>0.200000</td>
+      <th>9838</th>
+      <td>Grumman American</td>
+      <td>AA-5</td>
+      <td>31</td>
+      <td>0.451613</td>
+      <td>0.543011</td>
+      <td>0.362903</td>
+      <td>0.511828</td>
     </tr>
     <tr>
-      <th>3397</th>
+      <th>14489</th>
+      <td>PIPER</td>
+      <td>PA34</td>
+      <td>34</td>
+      <td>0.466964</td>
+      <td>0.515686</td>
+      <td>0.375000</td>
+      <td>0.513547</td>
+    </tr>
+    <tr>
+      <th>15927</th>
+      <td>ROBINSON</td>
+      <td>R22</td>
+      <td>61</td>
+      <td>0.456140</td>
+      <td>0.527322</td>
+      <td>0.350877</td>
+      <td>0.515387</td>
+    </tr>
+    <tr>
+      <th>3369</th>
       <td>Beech</td>
-      <td>V35TC</td>
-      <td>5</td>
-      <td>0.700000</td>
-      <td>0.900000</td>
-      <td>0.000000</td>
-      <td>0.220000</td>
+      <td>S35</td>
+      <td>49</td>
+      <td>0.451020</td>
+      <td>0.508617</td>
+      <td>0.418367</td>
+      <td>0.525941</td>
+    </tr>
+    <tr>
+      <th>3390</th>
+      <td>Beech</td>
+      <td>V35</td>
+      <td>51</td>
+      <td>0.421569</td>
+      <td>0.495098</td>
+      <td>0.401961</td>
+      <td>0.549020</td>
+    </tr>
+    <tr>
+      <th>15187</th>
+      <td>Piper</td>
+      <td>PA-31T</td>
+      <td>34</td>
+      <td>0.417781</td>
+      <td>0.484730</td>
+      <td>0.430392</td>
+      <td>0.555440</td>
+    </tr>
+    <tr>
+      <th>15221</th>
+      <td>Piper</td>
+      <td>PA-32R-301</td>
+      <td>60</td>
+      <td>0.410000</td>
+      <td>0.482500</td>
+      <td>0.445833</td>
+      <td>0.561000</td>
+    </tr>
+    <tr>
+      <th>6093</th>
+      <td>Cessna</td>
+      <td>414</td>
+      <td>78</td>
+      <td>0.392424</td>
+      <td>0.492379</td>
+      <td>0.393939</td>
+      <td>0.567594</td>
     </tr>
   </tbody>
 </table>
@@ -816,7 +806,7 @@ plt.show()
 
 
     
-![png](README_files/README_48_0.png)
+![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_48_0.png)
     
 
 
@@ -825,16 +815,16 @@ plt.show()
 print(top['Safety.Score'])
 ```
 
-    15926    0.123810
-    15572    0.146667
-    5296     0.166667
-    465      0.195238
-    9345     0.200000
-    14395    0.200000
-    15192    0.200000
-    15990    0.200000
-    17121    0.200000
-    3397     0.220000
+    14454    0.260000
+    15936    0.447817
+    9838     0.511828
+    14489    0.513547
+    15927    0.515387
+    3369     0.525941
+    3390     0.549020
+    15187    0.555440
+    15221    0.561000
+    6093     0.567594
     Name: Safety.Score, dtype: float64
     
 
@@ -934,22 +924,23 @@ plt.show()
 
 
     
-![png](README_files/README_55_0.png)
+![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_55_0.png)
     
 
 
 
     
-![png](README_files/README_55_1.png)
+![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_55_1.png)
     
 
 
-## Proposed List of Possible Models to acquire
+## Data-Driven Business Recommendations to guide executives
+### Proposed List of Possible Models to acquire
 
 
 ```python
 #Focus should be on events that occured most recently
-latest = df_filtered[df_filtered['Event.Year'] >= 2005].copy()
+latest = df_filtered[df_filtered['Event.Year'] >= 2010].copy()
 ```
 
 
@@ -1010,91 +1001,91 @@ Proposed_List.head(10)
   </thead>
   <tbody>
     <tr>
-      <th>2299</th>
-      <td>Boeing</td>
-      <td>747</td>
-      <td>8</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>4215</th>
-      <td>EMBRAER</td>
-      <td>EMB145</td>
-      <td>8</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>8615</th>
-      <td>Robinson</td>
-      <td>R-22 Beta II</td>
+      <th>2966</th>
+      <td>EVEKTOR-AEROTECHNIK AS</td>
+      <td>SPORTSTAR PLUS</td>
       <td>5</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>6842</th>
-      <td>Maule</td>
-      <td>MX7</td>
-      <td>5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>8438</th>
-      <td>ROCKWELL INTERNATIONAL</td>
-      <td>114</td>
+      <th>5044</th>
+      <td>PIPER</td>
+      <td>PA-18A 150</td>
       <td>9</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>3907</th>
-      <td>DIAMOND AIRCRAFT IND INC</td>
-      <td>DA 20 C1</td>
-      <td>11</td>
+      <th>2359</th>
+      <td>Cessna</td>
+      <td>185</td>
+      <td>7</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>8047</th>
-      <td>Piper</td>
-      <td>PA38</td>
+      <th>4295</th>
+      <td>MAULE</td>
+      <td>M-5-210C</td>
+      <td>7</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2828</th>
+      <td>EMBRAER</td>
+      <td>EMB145</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>792</th>
+      <td>BEECH</td>
+      <td>1900D</td>
       <td>5</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>7916</th>
-      <td>Piper</td>
-      <td>PA-20</td>
-      <td>8</td>
+      <th>5697</th>
+      <td>ROCKWELL INTERNATIONAL</td>
+      <td>114</td>
+      <td>7</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>2261</th>
-      <td>Boeing</td>
-      <td>717-200</td>
-      <td>8</td>
+      <th>6135</th>
+      <td>SMITH</td>
+      <td>AEROSTAR601</td>
+      <td>5</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>4936</th>
-      <td>GREAT LAKES</td>
-      <td>2T-1A-2</td>
-      <td>6</td>
+      <th>1738</th>
+      <td>CESSNA</td>
+      <td>150C</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5017</th>
+      <td>PIPER</td>
+      <td>PA 34</td>
+      <td>5</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -1105,217 +1096,104 @@ Proposed_List.head(10)
 
 
 
-Operations and Training conditions
+### Top 10 Recommended Aircraft Models to Consider Purchasing
 
 
 ```python
-#weather risk by model
-weather_risk = (
-    df_filtered.groupby(['Make', 'Model', 'Weather.Clean'])
-        .agg(Avg_Severity = ('Severity.Index', 'mean'), Accidents = ('Event.Id', 'count'))
-        .reset_index()
-)
-#Phase risk by model
-Phase_Risk = (
-    df_filtered.groupby(['Make', 'Model', 'Phase.Group'])
-        .agg(Avg_Severity =('Severity.Index', 'mean'), Accidents = ('Event.Id', 'count'))
-        .reset_index()
-)
-```
+# Needed columns: Make, Model, Occupants, Fatalities, Severity
 
+# 1) basic per-accident metrics
+df_filtered = df_filtered.copy()
+df_filtered['fatality_rate'] = 0.0
+mask = df_filtered['Total.People'] > 0
+df_filtered.loc[mask, 'fatality_rate'] = df_filtered.loc[mask, 'Total.Fatal.Injuries'] / df_filtered.loc[mask, 'Total.People']
 
-```python
-# Merge core safety with simple risk notes
-def risk_note(row):
+# If Severity is text, map it to numbers 0..1 first (delete this block if already numeric)
+# severity_map = {'None':0.0, 'Minor':0.2, 'Serious':0.5, 'Severe':0.8, 'Catastrophic':1.0}
+# df['Severity'] = df['Severity'].map(severity_map).fillna(0.0)
+
+# 2) count accidents per model
+cnt = df_filtered.groupby(['Make','Model']).size().reset_index(name='Total_Accidents')
+
+# 3) average fatality rate per model
+fatal = (df_filtered.groupby(['Make','Model'])['fatality_rate']
+           .mean().reset_index(name='Avg_Fatality_Rate'))
+
+# 4) average severity per model
+sev = (df_filtered.groupby(['Make','Model'])['Severity.Index']
+         .mean().reset_index(name='Avg_Severity'))
+# 5) join the pieces
+agg = pd.merge(cnt, fatal, on=['Make','Model'], how='left')
+agg = pd.merge(agg, sev, on=['Make','Model'], how='left')
+
+# 6) keep models with enough data (>=30 accidents)
+agg = agg[agg['Total_Accidents'] >= 30].copy()
+
+# 7) simple risk score (fatal outcomes weighed more)
+agg['Risk_Score'] = 0.7*agg['Avg_Fatality_Rate'] + 0.3*agg['Avg_Severity']
+
+# 8) sort safest first and pick top 10
+agg = agg.sort_values('Risk_Score', ascending=True)
+top10 = agg.head(10).copy()
+
+# 9) short plain-English note
+def note(row):
     if row['Avg_Fatality_Rate'] <= 0.02 and row['Avg_Severity'] <= 0.20:
-        return "Strong safety record; good acquisition candidate."
-    if row['Avg_Fatality_Rate'] <= 0.05 and row['Avg_Severity'] <= 0.25:
-        return "Acceptable safety; proceed with ops safeguards."
-    return "Higher risk; prefer alternatives or require strong mitigations."
+        return "Strong safety record."
+    elif row['Avg_Fatality_Rate'] <= 0.05 and row['Avg_Severity'] <= 0.25:
+        return "Acceptable; use standard mitigations."
+    else:
+        return "Higher risk vs peers."
+top10['Recommendation'] = top10.apply(note, axis=1)
+# 10) final columns (rounded for readability)
+final_cols = ['Make','Model','Total_Accidents',
+              'Avg_Fatality_Rate','Avg_Severity','Risk_Score','Recommendation']
+final_table = top10[final_cols].round({'Avg_Fatality_Rate':4,'Avg_Severity':3,'Risk_Score':4})
 
-recs = Proposed_List.copy()
-recs['Recommendation'] = recs.apply(risk_note, axis=1)
+print(final_table)
 
-# Optional: attach quick context from weather/phase (top risk buckets)
-w_ctx = (weather_risk.sort_values(['Make','Model','Avg_Severity'], ascending=[True,True,False])
-                   .groupby(['Make','Model']).head(1)
-                   .rename(columns={'Weather.Clean':'Top.Weather.Risk',
-                                    'Avg_Severity':'Weather.Risk.Severity'}))
+# 11) simple chart you can drop in slides
+labels = final_table['Make'] + " " + final_table['Model']
+plt.figure(figsize=(10,6))
+plt.barh(labels, final_table['Risk_Score'])
+plt.gca().invert_yaxis()
+plt.xlabel('Risk Score (lower is safer)')
+plt.title('Top 10 Safest Aircraft Models')
+plt.tight_layout()
+plt.show()
 
-p_ctx = (Phase_Risk.sort_values(['Make','Model','Avg_Severity'], ascending=[True,True,False])
-                  .groupby(['Make','Model']).head(1)
-                  .rename(columns={'Phase.Group':'Top.Phase.Risk',
-                                   'Avg_Severity':'Phase.Risk.Severity'}))
-
-recs = (recs.merge(w_ctx[['Make','Model','Top.Weather.Risk','Weather.Risk.Severity']],
-                   on=['Make','Model'], how='left')
- .merge(p_ctx[['Make','Model','Top.Phase.Risk','Phase.Risk.Severity']],
-                   on=['Make','Model'], how='left'))
-
-recs[['Make','Model','Accidents','Avg_Fatality_Rate','Avg_Severity','Safety.Score',
-      'Top.Weather.Risk','Top.Phase.Risk','Recommendation']].head(10)
+# Optional: save
+# final_table.to_csv('Top10_Safest_Aircraft.csv', index=False)
+# plt.savefig('Top10_Safest_Aircraft.png', dpi=300)
 ```
 
+                        Make      Model  Total_Accidents  Avg_Fatality_Rate  \
+    2420              BOEING        767               48             0.0000   
+    2446              BOEING        777               80             0.0000   
+    3990              Boeing        737               54             0.0000   
+    2400              BOEING        757               30             0.0000   
+    13055  Mcdonnell Douglas   DC-10-10               36             0.0104   
+    3938              Boeing    727-200               43             0.0233   
+    17680          Schweizer  SGS 2-33A               53             0.0000   
+    2374              BOEING        747               65             0.0308   
+    2307              BOEING        737              433             0.0272   
+    13091  Mcdonnell Douglas    DC-9-82               31             0.0315   
+    
+           Avg_Severity  Risk_Score                         Recommendation  
+    2420          0.007      0.0022                  Strong safety record.  
+    2446          0.013      0.0038                  Strong safety record.  
+    3990          0.016      0.0049                  Strong safety record.  
+    2400          0.023      0.0069                  Strong safety record.  
+    13055         0.028      0.0157                  Strong safety record.  
+    3938          0.030      0.0252  Acceptable; use standard mitigations.  
+    17680         0.099      0.0296                  Strong safety record.  
+    2374          0.033      0.0316  Acceptable; use standard mitigations.  
+    2307          0.042      0.0317  Acceptable; use standard mitigations.  
+    13091         0.034      0.0324  Acceptable; use standard mitigations.  
+    
 
 
+    
+![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_61_1.png)
+    
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Make</th>
-      <th>Model</th>
-      <th>Accidents</th>
-      <th>Avg_Fatality_Rate</th>
-      <th>Avg_Severity</th>
-      <th>Safety.Score</th>
-      <th>Top.Weather.Risk</th>
-      <th>Top.Phase.Risk</th>
-      <th>Recommendation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Boeing</td>
-      <td>747</td>
-      <td>8</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>Unknown</td>
-      <td>Cruise</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>EMBRAER</td>
-      <td>EMB145</td>
-      <td>8</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>IMC</td>
-      <td>Other</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Robinson</td>
-      <td>R-22 Beta II</td>
-      <td>5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>VMC</td>
-      <td>Landing</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Maule</td>
-      <td>MX7</td>
-      <td>5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>VMC</td>
-      <td>Other</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>ROCKWELL INTERNATIONAL</td>
-      <td>114</td>
-      <td>9</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>IMC</td>
-      <td>Other</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>DIAMOND AIRCRAFT IND INC</td>
-      <td>DA 20 C1</td>
-      <td>11</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>VMC</td>
-      <td>Other</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Piper</td>
-      <td>PA38</td>
-      <td>5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>VMC</td>
-      <td>Cruise</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Piper</td>
-      <td>PA-20</td>
-      <td>8</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>VMC</td>
-      <td>Other</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Boeing</td>
-      <td>717-200</td>
-      <td>8</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>VMC</td>
-      <td>Landing</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>GREAT LAKES</td>
-      <td>2T-1A-2</td>
-      <td>6</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>VMC</td>
-      <td>Other</td>
-      <td>Strong safety record; good acquisition candidate.</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-
-```
