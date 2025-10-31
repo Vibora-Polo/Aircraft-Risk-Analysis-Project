@@ -806,7 +806,7 @@ plt.show()
 
 
     
-![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_48_0.png)
+![png](README_files/Aviation_Risk_Analysis_48_0.png)
     
 
 
@@ -924,13 +924,13 @@ plt.show()
 
 
     
-![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_55_0.png)
+![png](README_files/Aviation_Risk_Analysis_55_0.png)
     
 
 
 
     
-![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_55_1.png)
+![png](README_files/Aviation_Risk_Analysis_55_1.png)
     
 
 
@@ -1194,6 +1194,6 @@ plt.show()
 
 
     
-![png](Aviation_Risk_Analysis_files/Aviation_Risk_Analysis_61_1.png)
+![png](README_files/Aviation_Risk_Analysis_61_1.png)
     
 
